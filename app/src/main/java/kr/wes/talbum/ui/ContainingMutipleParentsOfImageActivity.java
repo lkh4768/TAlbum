@@ -30,12 +30,15 @@ public class ContainingMutipleParentsOfImageActivity extends AppCompatActivity {
     private ArrayList<Integer> makeItems() {
         ArrayList<Integer> image = new ArrayList<>();
 
-        image.add(R.drawable.camera);
-        image.add(R.drawable.camera);
-        image.add(R.drawable.camera);
-        image.add(R.drawable.camera);
-        image.add(R.drawable.camera);
-        image.add(R.drawable.camera);
+        for (int i = 0; i < 20; i++) {
+            if (i % 3 == 0)
+                image.add(R.drawable.image1);
+            else if (i % 3 == 1)
+                image.add(R.drawable.image2);
+            else
+                image.add(R.drawable.image3);
+        }
+
 
         return image;
     }
