@@ -2,6 +2,7 @@ package kr.wes.talbum.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -9,14 +10,14 @@ import java.util.ArrayList;
 import kr.wes.talbum.R;
 
 public class ContainingMutipleParentsOfImageActivity extends AppCompatActivity {
-    private GridView gridView;
+    private DynamicColumnGridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_containing_mutiple_parents_of_image);
 
-        gridView = (GridView) findViewById(R.id.containingMutipleParentsOfImageGridView);
+        gridView = (DynamicColumnGridView) findViewById(R.id.containingMutipleParentsOfImageGridView);
 
         setUpGridViewAdapter();
     }

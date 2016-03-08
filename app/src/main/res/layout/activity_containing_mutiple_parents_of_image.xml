@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
+    <kr.wes.talbum.ui.DynamicColumnGridView
         android:id="@+id/containingMutipleParentsOfImageGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:horizontalSpacing="0dp"
         android:numColumns="2"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp"></GridView>
+        android:verticalSpacing="0dp" />
 </FrameLayout>
