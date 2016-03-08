@@ -23,7 +23,6 @@ import org.junit.runner.RunWith;
 import kr.wes.talbum.ui.ContainingMutipleParentsOfImageActivity;
 import kr.wes.talbum.ui.DynamicColumnGridView;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
