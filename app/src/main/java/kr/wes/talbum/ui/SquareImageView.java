@@ -9,7 +9,7 @@ import android.widget.ImageView;
  * Created by wes on 16. 3. 8.
  */
 public class SquareImageView extends ImageView {
-    private String LOG_TITLE = "SquareImageView_CUSTOM_LOG";
+    private String TAG = "SquareImageView_CUSTOM_TAG";
 
     public SquareImageView(Context context) {
         super(context);

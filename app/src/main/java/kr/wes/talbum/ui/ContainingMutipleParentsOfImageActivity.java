@@ -2,8 +2,6 @@ package kr.wes.talbum.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.widget.GridView;
 
 import java.util.ArrayList;
 
@@ -23,9 +21,9 @@ public class ContainingMutipleParentsOfImageActivity extends AppCompatActivity {
     }
 
     private void setUpGridViewAdapter() {
-        ParentOfImageConainerAdapter parentOfImageConainerAdapter = new ParentOfImageConainerAdapter(this, R.layout.parent_of_image_container_item, makeItems());
+        ParentOfImageContainerAdapter parentOfImageContainerAdapter = new ParentOfImageContainerAdapter(this, R.layout.parent_of_image_container_item, makeItems());
 
-        gridView.setAdapter(parentOfImageConainerAdapter);
+        gridView.setAdapter(parentOfImageContainerAdapter);
     }
 
     private ArrayList<Integer> makeItems() {

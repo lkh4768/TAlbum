@@ -11,7 +11,7 @@ import android.widget.GridView;
  */
 
 public class DynamicColumnGridView extends GridView {
-    private String LOG_TITLE = "DynamicColumenGridView_CUSTOM_LOG";
+    private String TAG = "DynamicColumenGridView_CUSTOM_LOG";
     public final static int MAX_COLUMN_SIZE = 360;
 
     public DynamicColumnGridView(Context context) {
@@ -35,8 +35,12 @@ public class DynamicColumnGridView extends GridView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
+        setNumColumsWithScreenWidth(w);
+    }
+
+    private void setNumColumsWithScreenWidth(int width) {
         int numColumn;
-        for (numColumn = 1; MAX_COLUMN_SIZE < (w / numColumn); numColumn++) ;
+        for (numColumn = 1; MAX_COLUMN_SIZE < (width / numColumn); numColumn++) ;
         setNumColumns(numColumn);
     }
 }

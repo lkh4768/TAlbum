@@ -15,9 +15,9 @@ import kr.wes.talbum.R;
  * Created by wes on 16. 3. 7.
  */
 
-public class ParentOfImageConainerAdapter extends ArrayAdapter<Integer> {
+public class ParentOfImageContainerAdapter extends ArrayAdapter<Integer> {
 
-    public ParentOfImageConainerAdapter(Context context, int resource, List<Integer> item) {
+    public ParentOfImageContainerAdapter(Context context, int resource, List<Integer> item) {
         super(context, resource, item);
     }
 

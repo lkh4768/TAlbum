@@ -30,6 +30,11 @@ public class TestMyTest1 {
         System.out.println("mytest1 setUp");
     }
 
+    @After
+    public void tearDown() {
+        System.out.println("mytest1 tearDown");
+    }
+
     @Test
     public void testAddtion() {
         assertTrue(2 == 2);
@@ -38,11 +43,6 @@ public class TestMyTest1 {
     @Test
     public void testAddtion2() {
         assertTrue(2 == 2);
-    }
-
-    @After
-    public void tearDown() {
-        System.out.println("mytest1 tearDown");
     }
 
 }
