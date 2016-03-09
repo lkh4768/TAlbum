@@ -19,6 +19,7 @@
         android:padding="5dp">
 
         <TextView
+            android:id="@+id/bucketDisplayName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
@@ -28,6 +29,7 @@
             android:textColor="@android:color/white" />
 
         <TextView
+            android:id="@+id/numberOfImageInBucket"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"

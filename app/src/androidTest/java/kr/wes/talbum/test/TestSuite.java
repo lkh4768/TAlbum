@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        RotateScreenTest.class, RotateScreenBehaviorTest.class
+        OrientationChangeActionTest.class, RotateScreenBehaviorTest.class
 })
 public class TestSuite {
 }

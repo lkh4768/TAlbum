@@ -4,8 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import kr.wes.talbum.R;
+import kr.wes.talbum.db.MediaStoreAccessor;
 
 public class ContainingMutipleParentsOfImageActivity extends AppCompatActivity {
     private DynamicColumnGridView gridView;
@@ -26,19 +29,32 @@ public class ContainingMutipleParentsOfImageActivity extends AppCompatActivity {
         gridView.setAdapter(parentOfImageContainerAdapter);
     }
 
-    private ArrayList<Integer> makeItems() {
-        ArrayList<Integer> image = new ArrayList<>();
+    private ArrayList<Map> makeItems() {
+        ArrayList<Map> items = new ArrayList<>();
+        Map item = null;
 
-        for (int i = 0; i < 20; i++) {
-            if (i % 3 == 0)
-                image.add(R.drawable.image1);
-            else if (i % 3 == 1)
-                image.add(R.drawable.image2);
-            else
-                image.add(R.drawable.image3);
+        MediaStoreAccessor mediaStoreAccessor = MediaStoreAccessor.getMediaStoreAccessorInstance(this);
+        ArrayList<String> bucketDisplayNameList = mediaStoreAccessor.getBucketDisplayNameInMediaStore();
+
+        for (int i = 0; i < bucketDisplayNameList.size(); i++) {
+            item = new HashMap();
+
+            if (i % 3 == 0) {
+                item.put("image", R.drawable.image1);
+                item.put("numberOfImageInBucket", "1");
+            } else if (i % 3 == 1) {
+                item.put("image", R.drawable.image2);
+                item.put("numberOfImageInBucket", "2");
+            } else {
+                item.put("image", R.drawable.image3);
+                item.put("numberOfImageInBucket", "3");
+            }
+
+            item.put("bucketDisplayName", bucketDisplayNameList.get(i));
+
+            items.add(item);
         }
 
-
-        return image;
+        return items;
     }
 }
