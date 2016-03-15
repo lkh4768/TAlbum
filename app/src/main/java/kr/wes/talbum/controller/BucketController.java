@@ -1,8 +1,11 @@
 package kr.wes.talbum.controller;
 
+import android.app.Activity;
+
 import java.sql.Date;
 import java.util.ArrayList;
 
+import kr.wes.talbum.db.ImageStoreAccessor;
 import kr.wes.talbum.model.Bucket;
 import kr.wes.talbum.model.Image;
 
@@ -10,13 +13,23 @@ import kr.wes.talbum.model.Image;
  * Created by wes on 16. 3. 15.
  */
 public class BucketController {
+    private ImageStoreAccessor imageStoreAccessor = null;
+
+    public BucketController(Activity activity) {
+        this.imageStoreAccessor = ImageStoreAccessor.getInstance(activity);
+    }
+
+    public ArrayList<Image> getAllImages() {
+        return imageStoreAccessor.getAllImages();
+    }
+
     public ArrayList<Bucket> deduplicatedBucketInImage(ArrayList<Image> images) {
         ArrayList<Bucket> buckets = new ArrayList<>();
         boolean isDeduplicaed = false;
 
         for (Image image : images) {
             for (Bucket bucket : buckets) {
-                if (image.getBucket().equals(bucket)) isDeduplicaed = true;
+                if (image.getBucket().getId().equals(bucket.getId())) isDeduplicaed = true;
             }
 
             if (!isDeduplicaed) buckets.add(image.getBucket());
@@ -29,7 +42,7 @@ public class BucketController {
         int count = 0;
 
         for (Image image : images) {
-            if (image.getBucket().equals(bucket)) count++;
+            if (image.getBucket().getId().equals(bucket.getId())) count++;
         }
         return count;
     }

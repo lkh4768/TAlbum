@@ -8,7 +8,8 @@
         android:id="@+id/imageContainerRepresentativeImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/image1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +26,6 @@
             android:layout_weight="0.7"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="container name"
             android:textColor="@android:color/white" />
 
         <TextView
@@ -36,7 +36,6 @@
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
-            android:text="num"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

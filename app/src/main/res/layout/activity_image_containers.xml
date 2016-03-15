@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <kr.wes.talbum.ui.DynamicColumnGridView
-        android:id="@+id/containingMutipleParentsOfImageGridView"
+        android:id="@+id/ImageContainersGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:horizontalSpacing="0dp"

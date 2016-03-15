@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import kr.wes.talbum.model.Image;
 public class ImageStoreAccessor {
     private static ImageStoreAccessor imageStoreAccessor = null;
     private ContentResolver cr;
-    private String TAG = "MediaStoreAccessor_CUSTOM_TAG";
+    private String TAG = "ImageStoreAccessor_CUSTOM_TAG";
 
     private ImageStoreAccessor(Activity activity) {
         cr = activity.getContentResolver();
@@ -31,7 +32,7 @@ public class ImageStoreAccessor {
         return imageStoreAccessor;
     }
 
-    public ArrayList<Image> getImages() {
+    public ArrayList<Image> getAllImages() {
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         String[] projection = {MediaStore.Images.ImageColumns.BUCKET_ID, MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, MediaStore.Images.ImageColumns.DATE_TAKEN, MediaStore.Images.ImageColumns._ID};
 
@@ -41,6 +42,7 @@ public class ImageStoreAccessor {
         Image image = null;
         Bucket bucket = null;
 
+        Log.d(TAG, "cursor count : " + c.getCount());
         if (c.moveToFirst()) {
             do {
                 bucket = new Bucket(c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_ID)), c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME)));

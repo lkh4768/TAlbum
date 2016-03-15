@@ -56,14 +56,14 @@ public class RotateScreenBehaviorTest {
     public void testScreenOrientationLandscapeGriColumnUpperWidth() {
         onView(isRoot()).perform(OrientationChangeAction.orientationLandscape()).check(matches(Matchers.isScreenOrientationLandscape()));
 
-        onView(withId(kr.wes.talbum.R.id.containingMutipleParentsOfImageGridView)).check(matches(Matchers.withUpperWidthOfGridColumn(DynamicColumnGridView.MAX_COLUMN_SIZE)));
+        onView(withId(kr.wes.talbum.R.id.ImageContainersGridView)).check(matches(Matchers.withUpperWidthOfGridColumn(DynamicColumnGridView.MAX_COLUMN_SIZE)));
     }
 
     @Test
     public void testScreenOrientationPortraitGriColumnUpperWidth() {
         onView(isRoot()).perform(OrientationChangeAction.orientationPortrait()).check(matches(Matchers.isScreenOrientationPortrait()));
 
-        onView(withId(kr.wes.talbum.R.id.containingMutipleParentsOfImageGridView)).check(matches(Matchers.withUpperWidthOfGridColumn(DynamicColumnGridView.MAX_COLUMN_SIZE)));
+        onView(withId(kr.wes.talbum.R.id.ImageContainersGridView)).check(matches(Matchers.withUpperWidthOfGridColumn(DynamicColumnGridView.MAX_COLUMN_SIZE)));
     }
 
 }
