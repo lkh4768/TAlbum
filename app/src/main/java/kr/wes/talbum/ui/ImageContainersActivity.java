@@ -1,16 +1,15 @@
 package kr.wes.talbum.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import kr.wes.talbum.R;
-import kr.wes.talbum.db.MediaStoreAccessor;
 
-public class ContainingMutipleParentsOfImageActivity extends AppCompatActivity {
+public class ImageContainersActivity extends AppCompatActivity {
     private DynamicColumnGridView gridView;
 
     @Override
@@ -33,10 +32,7 @@ public class ContainingMutipleParentsOfImageActivity extends AppCompatActivity {
         ArrayList<Map> items = new ArrayList<>();
         Map item = null;
 
-        MediaStoreAccessor mediaStoreAccessor = MediaStoreAccessor.getMediaStoreAccessorInstance(this);
-        ArrayList<String> bucketDisplayNameList = mediaStoreAccessor.getBucketDisplayNameInMediaStore();
-
-        for (int i = 0; i < bucketDisplayNameList.size(); i++) {
+        for (int i = 0; i < 10; i++) {
             item = new HashMap();
 
             if (i % 3 == 0) {
@@ -50,7 +46,7 @@ public class ContainingMutipleParentsOfImageActivity extends AppCompatActivity {
                 item.put("numberOfImageInBucket", "3");
             }
 
-            item.put("bucketDisplayName", bucketDisplayNameList.get(i));
+            item.put("bucketDisplayName", "dd");
 
             items.add(item);
         }

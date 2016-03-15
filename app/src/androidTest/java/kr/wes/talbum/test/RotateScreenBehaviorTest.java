@@ -13,7 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import kr.wes.talbum.ui.ContainingMutipleParentsOfImageActivity;
+import kr.wes.talbum.ui.ImageContainersActivity;
 import kr.wes.talbum.ui.DynamicColumnGridView;
 import kr.wes.talbum.util.Matchers;
 import kr.wes.talbum.util.OrientationChangeAction;
@@ -29,8 +29,8 @@ public class RotateScreenBehaviorTest {
     public static String TAG = "RotateScreenBehaviorTest_CUSTOM_TAG";
 
     @Rule
-    public ActivityTestRule<ContainingMutipleParentsOfImageActivity> activityRule = new ActivityTestRule<>(
-            ContainingMutipleParentsOfImageActivity.class);
+    public ActivityTestRule<ImageContainersActivity> activityRule = new ActivityTestRule<>(
+            ImageContainersActivity.class);
 
     @BeforeClass
     public static void oneTimeSetUp() {

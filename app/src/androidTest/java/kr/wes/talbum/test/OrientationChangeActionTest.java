@@ -5,7 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import kr.wes.talbum.ui.ContainingMutipleParentsOfImageActivity;
+import kr.wes.talbum.ui.ImageContainersActivity;
 import kr.wes.talbum.util.Matchers;
 import kr.wes.talbum.util.OrientationChangeAction;
 
@@ -18,8 +18,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
  */
 public class OrientationChangeActionTest {
     @Rule
-    public ActivityTestRule<ContainingMutipleParentsOfImageActivity> activityRule = new ActivityTestRule<>(
-            ContainingMutipleParentsOfImageActivity.class);
+    public ActivityTestRule<ImageContainersActivity> activityRule = new ActivityTestRule<>(
+            ImageContainersActivity.class);
 
     @Test
     public void testScreenOrientationLandscape() {

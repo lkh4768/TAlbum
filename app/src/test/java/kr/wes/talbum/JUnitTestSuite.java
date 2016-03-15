@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        TestMyTest1.class, TestMyTest2.class
+        BucketControllerTest.class
 })
 public class JUnitTestSuite {
 }
