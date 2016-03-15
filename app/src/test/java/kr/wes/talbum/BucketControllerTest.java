@@ -58,9 +58,9 @@ public class BucketControllerTest {
     }
 
     @Test
-    public void testGetBucketInImageCount() {
+    public void testGetNumberOfImagesInBucket() {
         setupImages();
-        int bucket0InImagesCount = bucketController.getImagesInBucketCount(images, bucket0);
+        int bucket0InImagesCount = bucketController.getNumberOfImagesInBucket(images, bucket0);
         assertEquals(bucket0InImagesCount, 2);
     }
 

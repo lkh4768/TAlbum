@@ -25,7 +25,7 @@ public class BucketController {
         return buckets;
     }
 
-    public int getImagesInBucketCount(ArrayList<Image> images, Bucket bucket) {
+    public int getNumberOfImagesInBucket(ArrayList<Image> images, Bucket bucket) {
         int count = 0;
 
         for (Image image : images) {
