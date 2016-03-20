@@ -6,17 +6,20 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import kr.wes.talbum.db.ImageStoreAccessor;
+import kr.wes.talbum.db.ImageStoreAccessorImpl;
 import kr.wes.talbum.model.Bucket;
 import kr.wes.talbum.model.Image;
 
 /**
  * Created by wes on 16. 3. 15.
  */
+
+//TODO refactoring
 public class BucketController {
     private ImageStoreAccessor imageStoreAccessor = null;
 
     public BucketController(Activity activity) {
-        this.imageStoreAccessor = ImageStoreAccessor.getInstance(activity);
+        this.imageStoreAccessor = ImageStoreAccessorFactory.getImageStoreAccessor("imageStoreAccessorImpl", activity);
     }
 
     public ArrayList<Image> getAllImages() {
@@ -50,10 +53,9 @@ public class BucketController {
     public Image getLatestImageInBucket(ArrayList<Image> images, Bucket bucket) {
         Image latestImage = images.get(0);
         for (Image image : images) {
-            if (image.getBucket().equals(bucket) && Date.valueOf(image.getDate()).after(Date.valueOf(latestImage.getDate())))
+            if (image.getBucket().getId().equals(bucket.getId()) && Date.valueOf(image.getDate()).after(Date.valueOf(latestImage.getDate())))
                 latestImage = image;
         }
         return latestImage;
     }
-
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TAlbum</string>
+    <string name="ok">OK</string>
+    <string name="permission_contacts_rationale">Contacts permissions are needed to demonstrate access.</string>
+    <string name="permision_available_contacts">Contacts Permissions have been granted. Contacts screen can now be opened.</string>
+    <string name="permissions_not_granted">Permissions were not granted.</string>
 </resources>

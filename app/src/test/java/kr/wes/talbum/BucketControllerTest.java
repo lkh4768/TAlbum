@@ -1,5 +1,7 @@
 package kr.wes.talbum;
 
+import android.app.Activity;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,23 +27,10 @@ public class BucketControllerTest {
     private Bucket bucket1 = new Bucket("bucket_id_1", "bucket_name_1");
     private ArrayList<Image> images = new ArrayList<>();
 
-    @BeforeClass
-    public static void oneTimeSetUp() {
-
-    }
-
-    @AfterClass
-    public static void oneTimeTearDown() {
-
-    }
-
     @Before
     public void setUp() {
-        bucketController = new BucketController();
-    }
-
-    @After
-    public void tearDown() {
+        Activity activity = new Activity();
+        bucketController = new BucketController(activity);
     }
 
     @Test
