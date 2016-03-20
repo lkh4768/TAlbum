@@ -2,7 +2,6 @@ package kr.wes.talbum.controller;
 
 import android.app.Activity;
 
-import kr.wes.talbum.db.FakeImageStoreAcessorImpl;
 import kr.wes.talbum.db.ImageStoreAccessor;
 import kr.wes.talbum.db.ImageStoreAccessorImpl;
 
@@ -11,7 +10,6 @@ import kr.wes.talbum.db.ImageStoreAccessorImpl;
  */
 public class ImageStoreAccessorFactory {
     private static ImageStoreAccessor imageStoreAccessorImpl = null;
-    private static ImageStoreAccessor fakeImageStoreAccessorImpl = null;
 
     public static ImageStoreAccessor getImageStoreAccessor(String imageStoreAccessorName, Activity activity){
         switch (imageStoreAccessorName){
@@ -21,11 +19,6 @@ public class ImageStoreAccessorFactory {
                 }
 
                 return imageStoreAccessorImpl;
-            case "fakeImageStoreAccessorImpl":
-                if(fakeImageStoreAccessorImpl == null){
-                    fakeImageStoreAccessorImpl = new FakeImageStoreAcessorImpl(activity);
-                }
-                return fakeImageStoreAccessorImpl;
             default:
                 return null;
         }

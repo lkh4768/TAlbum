@@ -11,7 +11,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import kr.wes.talbum.controller.ImageStoreAccessorFactory;
 import kr.wes.talbum.db.FakeImageStoreAcessorImpl;
+import kr.wes.talbum.db.ImageStoreAccessor;
 import kr.wes.talbum.model.Bucket;
 import kr.wes.talbum.model.Image;
 import kr.wes.talbum.ui.ImageContainersActivity;

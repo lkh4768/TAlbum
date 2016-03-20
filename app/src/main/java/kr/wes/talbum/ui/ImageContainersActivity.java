@@ -54,18 +54,16 @@ public class ImageContainersActivity extends AppCompatActivity {
     }
 
     public boolean isGrantedExternalStoragePermissions() {
-        // Verify that all required contact permissions have been granted.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Contacts permissions have not been granted.
-            Log.i(TAG, "Contact permissions has NOT been granted. Requesting permissions.");
+
+            Log.i(TAG, "External storage permissions has NOT been granted. Requesting permissions.");
             return false;
         } else {
-            // Contact permissions have been granted. Show the contacts fragment.
             Log.i(TAG,
-                    "Contact permissions have already been granted. Displaying contact details.");
+                    "External storage permissions have already been granted. Get all images and setup GridView");
             return true;
         }
     }
@@ -88,20 +86,15 @@ public class ImageContainersActivity extends AppCompatActivity {
     }
 
     private void requestExternalStoragePermissions() {
-        // BEGIN_INCLUDE(contacts_permission_request)
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 || ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example, if the request has been denied previously.
             Log.i(TAG,
-                    "Displaying contacts permission rationale to provide additional context.");
+                    "Displaying external storage permission rationale to provide additional context.");
 
-            // Display a SnackBar with an explanation and a button to trigger the request.
-            Snackbar.make(mainLayout, R.string.permission_contacts_rationale,
+            Snackbar.make(mainLayout, R.string.permission_external_storage_rationale,
                     Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.ok, new View.OnClickListener() {
                         @Override
@@ -113,10 +106,8 @@ public class ImageContainersActivity extends AppCompatActivity {
                     })
                     .show();
         } else {
-            // Contact permissions have not been granted yet. Request them directly.
             ActivityCompat.requestPermissions(this, PERMISSIONS_EXTERNAL_STORAGE, REQUEST_EXTERNAL_STORAGE);
         }
-        // END_INCLUDE(contacts_permission_request)
     }
 
 
@@ -125,19 +116,16 @@ public class ImageContainersActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
 
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
-            Log.i(TAG, "Received response for contact permissions request.");
+            Log.i(TAG, "Received response for external storage permissions request.");
 
-            // We have requested multiple permissions for contacts, so all of them need to be
-            // checked.
             if (PermissionUtil.verifyPermissions(grantResults)) {
-                // All required permissions have been granted, display contacts fragment.
-                Snackbar.make(mainLayout, R.string.permision_available_contacts,
+                Snackbar.make(mainLayout, R.string.permision_available_external_storage,
                         Snackbar.LENGTH_SHORT)
                         .show();
 
                 getAllImagesAndSetupGridView();
             } else {
-                Log.i(TAG, "Contacts permissions were NOT granted.");
+                Log.i(TAG, "External storage permissions were NOT granted.");
                 Snackbar.make(mainLayout, R.string.permissions_not_granted,
                         Snackbar.LENGTH_SHORT)
                         .show();
