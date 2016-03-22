@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import kr.wes.talbum.model.Bucket;
 import kr.wes.talbum.model.Image;
@@ -14,7 +16,7 @@ import kr.wes.talbum.model.Image;
 /**
  * Created by wes on 16. 3. 9.
  */
-public class ImageStoreAccessorImpl implements ImageStoreAccessor{
+public class ImageStoreAccessorImpl implements ImageStoreAccessor {
     private static Uri URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     private ContentResolver cr;
     private String TAG = "ImageStoreAccessor_CUSTOM_TAG";
@@ -25,7 +27,7 @@ public class ImageStoreAccessorImpl implements ImageStoreAccessor{
 
     @Override
     public ArrayList<Image> getAllImages() {
-        String[] projection = {MediaStore.Images.ImageColumns.BUCKET_ID, MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, MediaStore.Images.ImageColumns.DATE_TAKEN, MediaStore.Images.ImageColumns._ID};
+        String[] projection = {MediaStore.Images.ImageColumns.BUCKET_ID, MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, MediaStore.Images.ImageColumns.DATE_MODIFIED, MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA};
 
         Cursor c = cr.query(URI, projection, null, null, null);
 
@@ -36,7 +38,8 @@ public class ImageStoreAccessorImpl implements ImageStoreAccessor{
         if (c.moveToFirst()) {
             do {
                 bucket = new Bucket(c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_ID)), c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME)));
-                image = new Image(bucket, c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns.DATE_TAKEN)), c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns._ID)));
+
+                image = new Image(bucket, c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns.DATE_MODIFIED)), c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns._ID)), c.getString(c.getColumnIndex(MediaStore.Images.ImageColumns.DATA)));
 
                 images.add(image);
             } while (c.moveToNext());

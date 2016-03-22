@@ -18,22 +18,50 @@ package kr.wes.talbum.controller;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
-/**
- * Utility class that wraps access to the runtime permissions API in M and provides basic helper
- * methods.
- */
-public abstract class PermissionUtil {
 
-    /**
-     * Check that all given permissions have been granted by verifying that each entry in the
-     * given array is of the value {@link PackageManager#PERMISSION_GRANTED}.
-     *
-     * @see Activity#onRequestPermissionsResult(int, String[], int[])
-     */
-    public static boolean verifyPermissions(int[] grantResults) {
+public class PermissionUtil {
+    private String[] targetPermissions = {};
+    public static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String TAG = "PermissionUtil_CUSTOM_TAG";
+    public Activity activity;
+
+    public PermissionUtil(Activity activity, String[] targetPermissions) {
+        this.activity = activity;
+        this.targetPermissions = targetPermissions;
+    }
+
+    public boolean isGrantedExternalStoragePermissions() {
+        if (ActivityCompat.checkSelfPermission(activity, targetPermissions[0])
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(activity, targetPermissions[1])
+                != PackageManager.PERMISSION_GRANTED) {
+
+            Log.i(TAG, "External storage permissions has NOT been granted. Requesting permissions.");
+            return false;
+        } else {
+            Log.i(TAG,
+                    "External storage permissions have already been granted. Get all images and setup GridView");
+            return true;
+        }
+    }
+
+    public void requestExternalStoragePermissions() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                targetPermissions[0])
+                || ActivityCompat.shouldShowRequestPermissionRationale(activity, targetPermissions[1])) {
+
+            Log.i(TAG,
+                    "Displaying external storage permission rationale to provide additional context.");
+        }
+        ActivityCompat.requestPermissions(activity, targetPermissions, REQUEST_EXTERNAL_STORAGE);
+    }
+
+    public boolean verifyPermissions(int[] grantResults) {
         // At least one result must be checked.
-        if(grantResults.length < 1){
+        if (grantResults.length < 1) {
             return false;
         }
 

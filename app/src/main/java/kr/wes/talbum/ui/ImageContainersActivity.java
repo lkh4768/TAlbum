@@ -1,12 +1,13 @@
 package kr.wes.talbum.ui;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import kr.wes.talbum.R;
 import kr.wes.talbum.controller.BucketController;
+import kr.wes.talbum.controller.ImageController;
 import kr.wes.talbum.controller.PermissionUtil;
 import kr.wes.talbum.model.Bucket;
 import kr.wes.talbum.model.Image;
@@ -28,44 +30,30 @@ import kr.wes.talbum.model.Image;
 public class ImageContainersActivity extends AppCompatActivity {
     private View mainLayout;
     private DynamicColumnGridView gridView;
-    private BucketController bucketController;
     private ArrayList<Image> images;
 
-    private static String TAG = "ImageContainersActivity_CUSTOM_TAG";
+    private BucketController bucketController;
+    private PermissionUtil permissionUtil;
+    private ImageController imageController;
 
-    private static String[] PERMISSIONS_EXTERNAL_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String TAG = "ImageContainersActivity_CUSTOM_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_containers);
 
-        mainLayout = findViewById(R.id.imamgeContainerMainLayout);
-        gridView = (DynamicColumnGridView) findViewById(R.id.ImageContainersGridView);
+        mainLayout = findViewById(R.id.imageContainersMainLayout);
+        gridView = (DynamicColumnGridView) findViewById(R.id.imageContainersGridView);
 
         bucketController = new BucketController(this);
+        permissionUtil = new PermissionUtil(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE});
 
-        if (isGrantedExternalStoragePermissions()) {
+        if (permissionUtil.isGrantedExternalStoragePermissions()) {
             getAllImagesAndSetupGridView();
         } else
-            requestExternalStoragePermissions();
-    }
-
-    public boolean isGrantedExternalStoragePermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            Log.i(TAG, "External storage permissions has NOT been granted. Requesting permissions.");
-            return false;
-        } else {
-            Log.i(TAG,
-                    "External storage permissions have already been granted. Get all images and setup GridView");
-            return true;
-        }
+            permissionUtil.requestExternalStoragePermissions();
     }
 
     private void getAllImagesAndSetupGridView() {
@@ -85,40 +73,15 @@ public class ImageContainersActivity extends AppCompatActivity {
         gridView.setAdapter(gridViewAdapter);
     }
 
-    private void requestExternalStoragePermissions() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                || ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-            Log.i(TAG,
-                    "Displaying external storage permission rationale to provide additional context.");
-
-            Snackbar.make(mainLayout, R.string.permission_external_storage_rationale,
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ActivityCompat
-                                    .requestPermissions(ImageContainersActivity.this, PERMISSIONS_EXTERNAL_STORAGE,
-                                            REQUEST_EXTERNAL_STORAGE);
-                        }
-                    })
-                    .show();
-        } else {
-            ActivityCompat.requestPermissions(this, PERMISSIONS_EXTERNAL_STORAGE, REQUEST_EXTERNAL_STORAGE);
-        }
-    }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
-        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+        if (requestCode == PermissionUtil.REQUEST_EXTERNAL_STORAGE) {
             Log.i(TAG, "Received response for external storage permissions request.");
 
-            if (PermissionUtil.verifyPermissions(grantResults)) {
+            if (permissionUtil.verifyPermissions(grantResults)) {
                 Snackbar.make(mainLayout, R.string.permision_available_external_storage,
                         Snackbar.LENGTH_SHORT)
                         .show();
@@ -142,23 +105,51 @@ public class ImageContainersActivity extends AppCompatActivity {
             super(context, resource, item);
         }
 
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
             LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+            ImageView imageContainerImageView;
+            TextView bucketNameTextView;
+            TextView numberOfImageInBucketTextView;
+
             if (view == null) {
                 view = layoutInflater.inflate(R.layout.item_image_containers, null);
+
+                imageContainerImageView = (ImageView) view.findViewById(R.id.imageContainerRepresentativeImage);
+                bucketNameTextView = (TextView) view.findViewById(R.id.bucketName);
+                numberOfImageInBucketTextView = (TextView) view.findViewById(R.id.numberOfImageInBucket);
+                view.setTag(new ViewHolder(imageContainerImageView, bucketNameTextView, numberOfImageInBucketTextView));
+            } else {
+                ViewHolder viewHolder = (ViewHolder) view.getTag();
+                imageContainerImageView = viewHolder.imageContainerImageView;
+                bucketNameTextView = viewHolder.bucketNameTextView;
+                numberOfImageInBucketTextView = viewHolder.numberOfImageInBucketTextView;
             }
 
-            ImageView imageContainerImageView = (ImageView) view.findViewById(R.id.imageContainerRepresentativeImage);
-            TextView bucketNameTextView = (TextView) view.findViewById(R.id.bucketName);
-            TextView numberOfImageInBucketTextView = (TextView) view.findViewById(R.id.numberOfImageInBucket);
+            Image image = bucketController.getLatestImageInBucket(images, getItem(position));
+            imageController = new ImageController();
+            Bitmap bitmap = imageController.inquiryImage(image, gridView.getColumnWidth());
 
+            imageContainerImageView.setImageBitmap(bitmap);
             bucketNameTextView.setText(getItem(position).getName());
             numberOfImageInBucketTextView.setText(String.valueOf(bucketController.getNumberOfImagesInBucket(images, getItem(position))));
 
             return view;
+        }
+    }
+
+    private static class ViewHolder {
+        public ImageView imageContainerImageView;
+        public TextView bucketNameTextView;
+        public TextView numberOfImageInBucketTextView;
+
+        public ViewHolder(ImageView imageContainerImageView, TextView bucketNameTextView, TextView numberOfImageInBucketTextView) {
+            this.imageContainerImageView = imageContainerImageView;
+            this.bucketNameTextView = bucketNameTextView;
+            this.numberOfImageInBucketTextView = numberOfImageInBucketTextView;
         }
     }
 }

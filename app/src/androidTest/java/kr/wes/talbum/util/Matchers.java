@@ -4,10 +4,12 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
+import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.hamcrest.Description;
@@ -73,6 +75,20 @@ public class Matchers {
                 int orientation
                         = activity.getRequestedOrientation();
                 return orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+            }
+        };
+    }
+
+    public static BoundedMatcher<View, ImageView> hasDrawable() {
+        return new BoundedMatcher<View, ImageView>(ImageView.class) {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("has drawable");
+            }
+
+            @Override
+            public boolean matchesSafely(ImageView imageView) {
+                return imageView.getDrawable() != null;
             }
         };
     }

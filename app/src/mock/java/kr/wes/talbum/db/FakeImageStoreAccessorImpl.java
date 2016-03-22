@@ -10,15 +10,17 @@ import kr.wes.talbum.model.Image;
 /**
  * Created by wes on 16. 3. 20.
  */
-public class FakeImageStoreAcessorImpl implements ImageStoreAccessor {
+public class FakeImageStoreAccessorImpl implements ImageStoreAccessor {
     private static ArrayList<Image> FAKE_IMAGES = new ArrayList<>();
-
-    public FakeImageStoreAcessorImpl(Activity activity) {
-    }
 
     @Override
     public ArrayList<Image> getAllImages() {
         return FAKE_IMAGES;
+    }
+
+    @VisibleForTesting
+    public static int getNumberOfImages(){
+        return FAKE_IMAGES.size();
     }
 
     @VisibleForTesting

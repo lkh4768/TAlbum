@@ -1,9 +1,15 @@
 package kr.wes.talbum.controller;
 
 import android.app.Activity;
+import android.support.annotation.VisibleForTesting;
+import android.text.format.DateFormat;
+import android.util.Log;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import kr.wes.talbum.db.ImageStoreAccessor;
 import kr.wes.talbum.db.ImageStoreAccessorImpl;
@@ -14,9 +20,10 @@ import kr.wes.talbum.model.Image;
  * Created by wes on 16. 3. 15.
  */
 
-//TODO refactoring
 public class BucketController {
     private ImageStoreAccessor imageStoreAccessor = null;
+
+    private static String TAG = "BucketController_CUSTOM_TAG";
 
     public BucketController(Activity activity) {
         this.imageStoreAccessor = ImageStoreAccessorFactory.getImageStoreAccessor("imageStoreAccessorImpl", activity);
@@ -52,8 +59,9 @@ public class BucketController {
 
     public Image getLatestImageInBucket(ArrayList<Image> images, Bucket bucket) {
         Image latestImage = images.get(0);
+
         for (Image image : images) {
-            if (image.getBucket().getId().equals(bucket.getId()) && Date.valueOf(image.getDate()).after(Date.valueOf(latestImage.getDate())))
+            if (image.getBucket().getId().equals(bucket.getId()) && (Long.valueOf(image.getDate()) > Long.valueOf(latestImage.getDate())))
                 latestImage = image;
         }
         return latestImage;

@@ -7,11 +7,13 @@ public class Image {
     private Bucket bucket;
     private String date;
     private String id;
+    private String path;
 
-    public Image(Bucket bucket, String date, String id) {
+    public Image(Bucket bucket, String date, String id, String path) {
         this.bucket = bucket;
         this.date = date;
         this.id = id;
+        this.path = path;
     }
 
     public Bucket getBucket() {
@@ -36,5 +38,9 @@ public class Image {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPath() {
+        return path;
     }
 }
