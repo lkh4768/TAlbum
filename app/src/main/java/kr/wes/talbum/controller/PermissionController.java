@@ -22,13 +22,13 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 
-public class PermissionUtil {
+public class PermissionController {
     private String[] targetPermissions = {};
     public static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String TAG = "PermissionUtil_CUSTOM_TAG";
     public Activity activity;
 
-    public PermissionUtil(Activity activity, String[] targetPermissions) {
+    public PermissionController(Activity activity, String[] targetPermissions) {
         this.activity = activity;
         this.targetPermissions = targetPermissions;
     }

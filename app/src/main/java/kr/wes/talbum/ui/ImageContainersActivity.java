@@ -3,7 +3,6 @@ package kr.wes.talbum.ui;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,7 +22,7 @@ import java.util.List;
 import kr.wes.talbum.R;
 import kr.wes.talbum.controller.BucketController;
 import kr.wes.talbum.controller.ImageController;
-import kr.wes.talbum.controller.PermissionUtil;
+import kr.wes.talbum.controller.PermissionController;
 import kr.wes.talbum.model.Bucket;
 import kr.wes.talbum.model.Image;
 
@@ -33,7 +32,7 @@ public class ImageContainersActivity extends AppCompatActivity {
     private ArrayList<Image> images;
 
     private BucketController bucketController;
-    private PermissionUtil permissionUtil;
+    private PermissionController permissionController;
     private ImageController imageController;
 
     private static String TAG = "ImageContainersActivity_CUSTOM_TAG";
@@ -47,13 +46,15 @@ public class ImageContainersActivity extends AppCompatActivity {
         gridView = (DynamicColumnGridView) findViewById(R.id.imageContainersGridView);
 
         bucketController = new BucketController(this);
-        permissionUtil = new PermissionUtil(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+        permissionController = new PermissionController(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE});
+        imageController = new ImageController(this.getResources());
+        imageController.setLoadingImage(R.drawable.empty_photo);
 
-        if (permissionUtil.isGrantedExternalStoragePermissions()) {
+        if (permissionController.isGrantedExternalStoragePermissions()) {
             getAllImagesAndSetupGridView();
         } else
-            permissionUtil.requestExternalStoragePermissions();
+            permissionController.requestExternalStoragePermissions();
     }
 
     private void getAllImagesAndSetupGridView() {
@@ -78,10 +79,10 @@ public class ImageContainersActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
-        if (requestCode == PermissionUtil.REQUEST_EXTERNAL_STORAGE) {
+        if (requestCode == PermissionController.REQUEST_EXTERNAL_STORAGE) {
             Log.i(TAG, "Received response for external storage permissions request.");
 
-            if (permissionUtil.verifyPermissions(grantResults)) {
+            if (permissionController.verifyPermissions(grantResults)) {
                 Snackbar.make(mainLayout, R.string.permision_available_external_storage,
                         Snackbar.LENGTH_SHORT)
                         .show();
@@ -129,14 +130,13 @@ public class ImageContainersActivity extends AppCompatActivity {
                 numberOfImageInBucketTextView = viewHolder.numberOfImageInBucketTextView;
             }
 
-            Image image = bucketController.getLatestImageInBucket(images, getItem(position));
-            imageController = new ImageController();
-            Bitmap bitmap = imageController.inquiryImage(image, gridView.getColumnWidth());
-
-            imageContainerImageView.setImageBitmap(bitmap);
+            imageContainerImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             bucketNameTextView.setText(getItem(position).getName());
             numberOfImageInBucketTextView.setText(String.valueOf(bucketController.getNumberOfImagesInBucket(images, getItem(position))));
 
+            Image image = bucketController.getLatestImageInBucket(images, getItem(position));
+
+            imageController.fetchImage(imageContainerImageView, image, gridView.getColumnWidth());
             return view;
         }
     }
