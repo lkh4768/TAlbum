@@ -124,7 +124,11 @@ public class ImageController {
         // Decode image in background.
         @Override
         protected Bitmap doInBackground(Image... params) {
-            return decodeSampledBitmapFromPath(image, imageSize, imageSize);
+            Bitmap bitmap = decodeSampledBitmapFromPath(image, imageSize, imageSize);
+            if (imageCache != null) {
+                imageCache.addBitmapToMemoryCache(image.getId(), bitmap);
+            }
+            return bitmap;
         }
 
         // Once complete, see if ImageView is still around and set bitmap.
@@ -139,7 +143,6 @@ public class ImageController {
                 final BitmapWorkerTask bitmapWorkerTask =
                         getBitmapWorkerTask(imageView);
                 if (this == bitmapWorkerTask && imageView != null) {
-                    imageCache.addBitmapToMemoryCache(image.getId(), bitmap);
                     imageView.setImageBitmap(bitmap);
                 }
             }
@@ -149,7 +152,6 @@ public class ImageController {
     public Bitmap decodeSampledBitmapFromPath(Image image, int reqWidth, int reqHeight) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        Log.i(TAG, image.getPath());
         BitmapFactory.decodeFile(image.getPath().trim(), options);
 
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
