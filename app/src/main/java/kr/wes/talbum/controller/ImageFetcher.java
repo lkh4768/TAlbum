@@ -17,13 +17,13 @@ import kr.wes.talbum.model.Image;
 /**
  * Created by wes on 16. 3. 22.
  */
-public class ImageController {
+public class ImageFetcher {
     private static String TAG = "ImageController_CUSTOM_TAG";
     private Resources resources;
     private Bitmap loadingBitmap;
     private ImageCache imageCache;
 
-    public ImageController(Resources resources) {
+    public ImageFetcher(Resources resources) {
         this.resources = resources;
         imageCache = ImageCache.getInstance();
     }

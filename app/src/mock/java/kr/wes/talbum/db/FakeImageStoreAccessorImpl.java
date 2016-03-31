@@ -5,6 +5,7 @@ import android.support.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 
+import kr.wes.talbum.db.ImageStoreAccessor;
 import kr.wes.talbum.model.Image;
 
 /**
