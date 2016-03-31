@@ -1,8 +1,11 @@
 package kr.wes.talbum.test;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.widget.GridView;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,6 +20,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -27,18 +31,22 @@ public class RotateScreenBehaviorTest {
     public ActivityTestRule<ImageContainersActivity> activityRule = new ActivityTestRule<>(
             ImageContainersActivity.class);
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Test
     public void testScreenOrientationLandscapeGriColumnUpperWidth() {
         onView(isRoot()).perform(OrientationChangeAction.orientationLandscape()).check(matches(Matchers.isScreenOrientationLandscape()));
 
-        onView(withId(kr.wes.talbum.R.id.imageContainersGridView)).check(matches(Matchers.withUpperWidthOfGridColumn(DynamicColumnGridView.MAX_COLUMN_SIZE)));
+        GridView gridView = (GridView) activityRule.getActivity().findViewById(kr.wes.talbum.R.id.imageContainersGridView);
+        assertTrue(gridView.getColumnWidth() <= DynamicColumnGridView.MAX_COLUMN_SIZE);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Test
     public void testScreenOrientationPortraitGriColumnUpperWidth() {
         onView(isRoot()).perform(OrientationChangeAction.orientationPortrait()).check(matches(Matchers.isScreenOrientationPortrait()));
 
-        onView(withId(kr.wes.talbum.R.id.imageContainersGridView)).check(matches(Matchers.withUpperWidthOfGridColumn(DynamicColumnGridView.MAX_COLUMN_SIZE)));
+        GridView gridView = (GridView) activityRule.getActivity().findViewById(kr.wes.talbum.R.id.imageContainersGridView);
+        assertTrue(gridView.getColumnWidth() <= DynamicColumnGridView.MAX_COLUMN_SIZE);
     }
 
 }

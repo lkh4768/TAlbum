@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import java.lang.ref.WeakReference;
 
 import kr.wes.talbum.BuildConfig;
+import kr.wes.talbum.Injection;
 import kr.wes.talbum.model.Image;
 
 /**
@@ -124,7 +125,9 @@ public class ImageFetcher {
         // Decode image in background.
         @Override
         protected Bitmap doInBackground(Image... params) {
-            Bitmap bitmap = decodeSampledBitmapFromPath(image, imageSize, imageSize);
+            SampledBitmapDecoder sampledBitmapDecoder = Injection.provideSampleBitmapDecoder();
+            Bitmap bitmap = sampledBitmapDecoder.decodeSampledBitmap(image.getPath(), imageSize, imageSize);
+
             if (imageCache != null) {
                 imageCache.addBitmapToMemoryCache(image.getId(), bitmap);
             }
@@ -147,40 +150,6 @@ public class ImageFetcher {
                 }
             }
         }
-    }
-
-    public Bitmap decodeSampledBitmapFromPath(Image image, int reqWidth, int reqHeight) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(image.getPath().trim(), options);
-
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(image.getPath().trim(), options);
-    }
-
-    private int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
     }
 
     /**

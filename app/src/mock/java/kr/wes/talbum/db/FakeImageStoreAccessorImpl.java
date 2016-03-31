@@ -12,7 +12,18 @@ import kr.wes.talbum.model.Image;
  * Created by wes on 16. 3. 20.
  */
 public class FakeImageStoreAccessorImpl implements ImageStoreAccessor {
+    private static ImageStoreAccessor imageStoreAccessor = null;
     private static ArrayList<Image> FAKE_IMAGES = new ArrayList<>();
+
+    private FakeImageStoreAccessorImpl(Activity activity) {
+    }
+
+    public static ImageStoreAccessor getInstance(Activity activity) {
+        if (imageStoreAccessor == null) {
+            imageStoreAccessor = new FakeImageStoreAccessorImpl(activity);
+        }
+        return imageStoreAccessor;
+    }
 
     @Override
     public ArrayList<Image> getAllImages() {
@@ -20,7 +31,7 @@ public class FakeImageStoreAccessorImpl implements ImageStoreAccessor {
     }
 
     @VisibleForTesting
-    public static int getNumberOfImages(){
+    public static int getNumberOfImages() {
         return FAKE_IMAGES.size();
     }
 

@@ -1,6 +1,7 @@
 package kr.wes.talbum.controller;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.LruCache;
 
 /**
@@ -9,6 +10,8 @@ import android.util.LruCache;
 public class ImageCache {
     private LruCache<String, Bitmap> memoryCache;
     private static ImageCache imageCache = null;
+
+    private static String TAG = "ImageCache_CUSTOM_TAG";
 
     private ImageCache() {
         initLruCache();
@@ -51,8 +54,9 @@ public class ImageCache {
         }
     }
 
-    public Bitmap getBitmapFromMemCache(String imageURL) {
-        Bitmap bitmap = memoryCache.get(imageURL);
+    public Bitmap getBitmapFromMemCache(String key) {
+        Log.d(TAG, key);
+        Bitmap bitmap = memoryCache.get(key);
 
         return bitmap;
     }

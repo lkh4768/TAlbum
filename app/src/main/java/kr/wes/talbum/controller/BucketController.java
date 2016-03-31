@@ -21,19 +21,9 @@ import kr.wes.talbum.model.Image;
  */
 
 public class BucketController {
-    private ImageStoreAccessor imageStoreAccessor = null;
-
     private static String TAG = "BucketController_CUSTOM_TAG";
 
-    public BucketController(Activity activity) {
-        this.imageStoreAccessor = ImageStoreAccessorFactory.getImageStoreAccessor("imageStoreAccessorImpl", activity);
-    }
-
-    public ArrayList<Image> getAllImages() {
-        return imageStoreAccessor.getAllImages();
-    }
-
-    public ArrayList<Bucket> deduplicatedBucketInImage(ArrayList<Image> images) {
+    public ArrayList<Bucket> deduplicatedBucketInImages(ArrayList<Image> images) {
         ArrayList<Bucket> buckets = new ArrayList<>();
         boolean isDeduplicaed = false;
 

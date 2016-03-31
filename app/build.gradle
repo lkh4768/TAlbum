@@ -16,11 +16,7 @@ android {
     buildTypes {
         debug {
             // Run code coverage reports by default on debug builds.
-            testCoverageEnabled = true
-        }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // testCoverageEnabled = true
         }
     }
     // If you need to add more flavors, consider using flavor dimensions.
@@ -29,7 +25,6 @@ android {
             applicationIdSuffix = ".mock"
         }
         prod {
-
         }
     }
 
@@ -40,19 +35,21 @@ android {
             variant.setIgnore(true);
         }
     }
+
+    // Always show the result of every unit test, even if it passes.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     // App's dependencies, including test
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
-    compile "com.google.guava:guava:$rootProject.guavaVersion"
-    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
-    compile "com.android.support.test.espresso:espresso-idling-resource:$rootProject.ext.espressoVersion"
-    compile "com.kbeanie:image-chooser-library:$rootProject.ext.imageChooserLibraryVersion"
-    compile 'com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion'
 
     // Dependencies for local unit tests
     testCompile "junit:junit:$rootProject.ext.junitVersion"

@@ -20,16 +20,8 @@ public class Image {
         return bucket;
     }
 
-    public void setBucket(Bucket bucket) {
-        this.bucket = bucket;
-    }
-
     public String getDate() {
         return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getId() {

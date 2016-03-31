@@ -51,7 +51,6 @@ public class ImageContainersScreenTest {
     public void setUpFakeImageAndIntent() {
         if (FakeImageStoreAccessorImpl.getNumberOfImages() == 0)
             FakeImageStoreAccessorImpl.addImages(image);
-
         Intent startIntent = new Intent();
         imageContainersActivityActivityTestRule.launchActivity(startIntent);
     }
@@ -60,6 +59,7 @@ public class ImageContainersScreenTest {
     @Test
     public void testImageSize() {
         Activity activity = imageContainersActivityActivityTestRule.getActivity();
+
         ImageView imageView = (ImageView) activity.findViewById(R.id.imageContainerRepresentativeImage);
         GridView gridView = (GridView) activity.findViewById(R.id.imageContainersGridView);
         Drawable drawable = imageView.getDrawable();

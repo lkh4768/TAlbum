@@ -1,11 +1,5 @@
 package kr.wes.talbum;
 
-import android.app.Activity;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -21,22 +15,16 @@ import static org.junit.Assert.assertTrue;
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
 public class BucketControllerTest {
-    private BucketController bucketController = null;
+    private BucketController bucketController = new BucketController();
 
     private Bucket bucket0 = new Bucket("bucket_id_0", "bucket_name_0");
     private Bucket bucket1 = new Bucket("bucket_id_1", "bucket_name_1");
     private ArrayList<Image> images = new ArrayList<>();
 
-    @Before
-    public void setUp() {
-        Activity activity = new Activity();
-        bucketController = new BucketController(activity);
-    }
-
     @Test
     public void testDeduplicatedBucketInImages() {
         setupImages();
-        ArrayList<Bucket> buckets = bucketController.deduplicatedBucketInImage(images);
+        ArrayList<Bucket> buckets = bucketController.deduplicatedBucketInImages(images);
 
         assertEquals(buckets.size(), 2);
 
@@ -58,13 +46,12 @@ public class BucketControllerTest {
         setupImages();
         Image image = bucketController.getLatestImageInBucket(images, bucket0);
 
-        assertEquals(image.getDate(), images.get(1).getDate());
+        assertEquals(image.getDate(), images.get(0).getDate());
     }
 
     public void setupImages() {
-        images.add(new Image(bucket0, "2010-10-10", "image_id_0"));
-        images.add(new Image(bucket0, "2011-10-10", "image_id_1"));
-        images.add(new Image(bucket1, "2013-10-10", "image_id_2"));
+        images.add(new Image(bucket0, "150240000", "image_id_0", "file:///android_asset/sample_image.png"));
+        images.add(new Image(bucket0, "150210000", "image_id_1", "file:///android_asset/sample_image.png"));
+        images.add(new Image(bucket1, "151652000", "image_id_2", "file:///android_asset/sample_image.png"));
     }
-
 }

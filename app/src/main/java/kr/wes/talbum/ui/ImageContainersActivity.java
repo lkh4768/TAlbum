@@ -22,6 +22,7 @@ import java.util.List;
 import kr.wes.talbum.R;
 import kr.wes.talbum.controller.BucketController;
 import kr.wes.talbum.controller.ImageController;
+import kr.wes.talbum.controller.ImageFetcher;
 import kr.wes.talbum.controller.PermissionController;
 import kr.wes.talbum.model.Bucket;
 import kr.wes.talbum.model.Image;
@@ -34,6 +35,7 @@ public class ImageContainersActivity extends AppCompatActivity {
     private BucketController bucketController;
     private PermissionController permissionController;
     private ImageController imageController;
+    private ImageFetcher imageFetcher;
 
     private static String TAG = "ImageContainersActivity_CUSTOM_TAG";
 
@@ -45,11 +47,13 @@ public class ImageContainersActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.imageContainersMainLayout);
         gridView = (DynamicColumnGridView) findViewById(R.id.imageContainersGridView);
 
-        bucketController = new BucketController(this);
+        bucketController = new BucketController();
         permissionController = new PermissionController(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE});
-        imageController = new ImageController(this.getResources());
-        imageController.setLoadingImage(R.drawable.empty_photo);
+        imageController = new ImageController(this);
+
+        imageFetcher = new ImageFetcher(this.getResources());
+        imageFetcher.setLoadingImage(R.drawable.empty_photo);
 
         if (permissionController.isGrantedExternalStoragePermissions()) {
             getAllImagesAndSetupGridView();
@@ -63,12 +67,11 @@ public class ImageContainersActivity extends AppCompatActivity {
     }
 
     private void getAllImages() {
-        Log.i(TAG, "permission success!");
-        images = bucketController.getAllImages();
+        images = imageController.getAllImages();
     }
 
     private void setUpGridView() {
-        ArrayList<Bucket> buckets = bucketController.deduplicatedBucketInImage(images);
+        ArrayList<Bucket> buckets = bucketController.deduplicatedBucketInImages(images);
         GridViewAdapter gridViewAdapter = new GridViewAdapter(this, R.layout.item_image_containers, buckets);
 
         gridView.setAdapter(gridViewAdapter);
@@ -136,7 +139,7 @@ public class ImageContainersActivity extends AppCompatActivity {
 
             Image image = bucketController.getLatestImageInBucket(images, getItem(position));
 
-            imageController.fetchImage(imageContainerImageView, image, gridView.getColumnWidth());
+            imageFetcher.fetchImage(imageContainerImageView, image, gridView.getColumnWidth());
             return view;
         }
     }

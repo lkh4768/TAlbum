@@ -17,12 +17,20 @@ import kr.wes.talbum.model.Image;
  * Created by wes on 16. 3. 9.
  */
 public class ImageStoreAccessorImpl implements ImageStoreAccessor {
+    private static ImageStoreAccessor imageStoreAccessor = null;
     private static Uri URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     private ContentResolver cr;
     private String TAG = "ImageStoreAccessor_CUSTOM_TAG";
 
-    public ImageStoreAccessorImpl(Activity activity) {
+    private ImageStoreAccessorImpl(Activity activity) {
         cr = activity.getContentResolver();
+    }
+
+    public static ImageStoreAccessor getInstance(Activity activity) {
+        if (imageStoreAccessor == null) {
+            imageStoreAccessor = new ImageStoreAccessorImpl(activity);
+        }
+        return imageStoreAccessor;
     }
 
     @Override
