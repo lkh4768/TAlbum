@@ -9,10 +9,12 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.util.Log;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +25,7 @@ import kr.wes.talbum.model.Bucket;
 import kr.wes.talbum.model.Image;
 import kr.wes.talbum.ui.ImageContainersActivity;
 import kr.wes.talbum.util.Matchers;
+import kr.wes.talbum.util.SampledBitmapDecoderWithAssets;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -42,13 +45,14 @@ public class ImageContainersScreenTest {
     private static String BUCKET_NAME = "fake bucket";
 
     private static Bucket bucket = new Bucket("bucket_id_1", BUCKET_NAME);
-    private static Image image = new Image(bucket, "1561548100", "image_id_1", "file:///android_asset/sample_image.png");
+    private static Image image = new Image(bucket, "1561548100", "image_id_1", "sample_image.png");
     @Rule
     public ActivityTestRule<ImageContainersActivity> imageContainersActivityActivityTestRule =
-            new ActivityTestRule<>(ImageContainersActivity.class, true, false);
+            new ActivityTestRule<>(ImageContainersActivity.class);
 
     @Before
     public void setUpFakeImageAndIntent() {
+        SampledBitmapDecoderWithAssets.activity = imageContainersActivityActivityTestRule.getActivity();
         if (FakeImageStoreAccessorImpl.getNumberOfImages() == 0)
             FakeImageStoreAccessorImpl.addImages(image);
         Intent startIntent = new Intent();
@@ -62,8 +66,7 @@ public class ImageContainersScreenTest {
 
         ImageView imageView = (ImageView) activity.findViewById(R.id.imageContainerRepresentativeImage);
         GridView gridView = (GridView) activity.findViewById(R.id.imageContainersGridView);
-        Drawable drawable = imageView.getDrawable();
-        assertEquals(drawable.getBounds().width(), gridView.getColumnWidth());
+        assertEquals(gridView.getColumnWidth(), imageView.getWidth());
     }
 
     @Test

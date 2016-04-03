@@ -55,7 +55,6 @@ public class ImageCache {
     }
 
     public Bitmap getBitmapFromMemCache(String key) {
-        Log.d(TAG, key);
         Bitmap bitmap = memoryCache.get(key);
 
         return bitmap;

@@ -2,6 +2,7 @@ package kr.wes.talbum.util;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.VisibleForTesting;
@@ -21,7 +22,6 @@ public class SampledBitmapDecoderWithAssets extends SampledBitmapDecoder {
 
     @Override
     public Bitmap decodeSampledBitmap(String address, int reqWidth, int reqHeight) {
-        ImageCache imageCache = ImageCache.getInstance();
         AssetManager assetManager = activity.getAssets();
         InputStream istr = null;
         try {
@@ -29,6 +29,7 @@ public class SampledBitmapDecoderWithAssets extends SampledBitmapDecoder {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return BitmapFactory.decodeStream(istr);
     }
 }

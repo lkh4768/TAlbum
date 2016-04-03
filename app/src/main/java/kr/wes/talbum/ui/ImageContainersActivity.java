@@ -35,7 +35,6 @@ public class ImageContainersActivity extends AppCompatActivity {
     private BucketController bucketController;
     private PermissionController permissionController;
     private ImageController imageController;
-    private ImageFetcher imageFetcher;
 
     private static String TAG = "ImageContainersActivity_CUSTOM_TAG";
 
@@ -52,18 +51,11 @@ public class ImageContainersActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE});
         imageController = new ImageController(this);
 
-        imageFetcher = new ImageFetcher(this.getResources());
-        imageFetcher.setLoadingImage(R.drawable.empty_photo);
-
         if (permissionController.isGrantedExternalStoragePermissions()) {
-            getAllImagesAndSetupGridView();
+            getAllImages();
+            setUpGridView();
         } else
             permissionController.requestExternalStoragePermissions();
-    }
-
-    private void getAllImagesAndSetupGridView() {
-        getAllImages();
-        setUpGridView();
     }
 
     private void getAllImages() {
@@ -90,7 +82,7 @@ public class ImageContainersActivity extends AppCompatActivity {
                         Snackbar.LENGTH_SHORT)
                         .show();
 
-                getAllImagesAndSetupGridView();
+                getAllImages();
             } else {
                 Log.i(TAG, "External storage permissions were NOT granted.");
                 Snackbar.make(mainLayout, R.string.permissions_not_granted,
@@ -139,7 +131,7 @@ public class ImageContainersActivity extends AppCompatActivity {
 
             Image image = bucketController.getLatestImageInBucket(images, getItem(position));
 
-            imageFetcher.fetchImage(imageContainerImageView, image, gridView.getColumnWidth());
+            imageController.fetchImageAndSetImageView(imageContainerImageView, image, gridView.getColumnWidth());
             return view;
         }
     }

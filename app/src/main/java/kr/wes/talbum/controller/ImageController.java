@@ -15,6 +15,7 @@ import kr.wes.talbum.model.Image;
  */
 public class ImageController {
     private ImageStoreAccessor imageStoreAccessor = null;
+    private ImageFetcher imageFetcher = null;
     private Activity activity = null;
 
     private static String TAG = "ImageController_CUSTOM_TAG";
@@ -28,9 +29,8 @@ public class ImageController {
         return imageStoreAccessor.getAllImages();
     }
 
-    public Bitmap fetchImage(ImageView imageView, Image image, int imageSize) {
-        Bitmap bitmap = Injection.provideSampleBitmapDecoder().decodeSampledBitmap(image.getPath(), imageSize, imageSize);
-        ImageCache.getInstance().addBitmapToMemoryCache(image.getId(),bitmap);
-        return bitmap;
+    public void fetchImageAndSetImageView(ImageView imageView, Image image, int imageSize) {
+        imageFetcher = new ImageFetcher(activity.getResources());
+        imageFetcher.fetchImageAndSetImageView(imageView, image, imageSize);
     }
 }

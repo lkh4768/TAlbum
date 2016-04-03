@@ -1,7 +1,11 @@
 package kr.wes.talbum.controller;
 
+import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import java.security.AccessControlContext;
 
 import kr.wes.talbum.model.Image;
 

@@ -2,7 +2,6 @@ package kr.wes.talbum.controller;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -21,7 +20,6 @@ import kr.wes.talbum.model.Image;
 public class ImageFetcher {
     private static String TAG = "ImageController_CUSTOM_TAG";
     private Resources resources;
-    private Bitmap loadingBitmap;
     private ImageCache imageCache;
 
     public ImageFetcher(Resources resources) {
@@ -29,24 +27,24 @@ public class ImageFetcher {
         imageCache = ImageCache.getInstance();
     }
 
-    public void fetchImage(ImageView imageView, Image image, int imageSize) {
+    public void fetchImageAndSetImageView(ImageView imageView, Image image, int imageSize) {
         if (imageCache.hasBitmapFromMemCache(image.getId())) {
-            fetchBitmapFromMemCache(image.getId(), imageView);
+            fetchBitmapFromMemCacheAndSetImageView(image.getId(), imageView);
         } else {
-            fetchBitmapFromExternalStorage(image, imageView, imageSize);
+            fetchBitmapFromExternalStorageAndSetImageView(image, imageView, imageSize);
         }
     }
 
-    private void fetchBitmapFromMemCache(String id, ImageView imageView) {
+    private void fetchBitmapFromMemCacheAndSetImageView(String id, ImageView imageView) {
         Bitmap bitmap = imageCache.getBitmapFromMemCache(id);
         imageView.setImageBitmap(bitmap);
     }
 
-    private void fetchBitmapFromExternalStorage(Image image, ImageView imageView, int imageSize) {
+    private void fetchBitmapFromExternalStorageAndSetImageView(Image image, ImageView imageView, int imageSize) {
         if (cancelPotentialWork(image, imageView)) {
             BitmapWorkerTask task = new BitmapWorkerTask(image, imageView, imageSize);
             final AsyncDrawable asyncDrawable =
-                    new AsyncDrawable(resources, loadingBitmap, task);
+                    new AsyncDrawable(resources, null, task);
             imageView.setImageDrawable(asyncDrawable);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -150,14 +148,7 @@ public class ImageFetcher {
                 }
             }
         }
+
     }
 
-    /**
-     * Set placeholder bitmap that shows when the the background thread is running.
-     *
-     * @param resId
-     */
-    public void setLoadingImage(int resId) {
-        loadingBitmap = BitmapFactory.decodeResource(resources, resId);
-    }
 }

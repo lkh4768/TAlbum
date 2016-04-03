@@ -3,8 +3,6 @@ package kr.wes.talbum.controller;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import kr.wes.talbum.model.Image;
-
 /**
  * Created by wes on 16. 3. 31.
  */
